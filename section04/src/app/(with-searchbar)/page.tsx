@@ -4,7 +4,7 @@ import { BookData } from '@/types';
 import { SERVER_URL } from '@/constants/server-url';
 
 const AllBooks = async () => {
-  const response = await fetch(`${SERVER_URL}/book`);
+  const response = await fetch(`${SERVER_URL}/book`, { cache: 'no-store' });
   if (!response.ok) {
     return <div>오류가 발생했습니다...</div>;
   }
@@ -14,7 +14,9 @@ const AllBooks = async () => {
 };
 
 const RecommendBooks = async () => {
-  const response = await fetch(`${SERVER_URL}/book/random`);
+  const response = await fetch(`${SERVER_URL}/book/random`, {
+    next: { revalidate: 3 },
+  });
   if (!response.ok) {
     return <div>오류가 발생했습니다...</div>;
   }
