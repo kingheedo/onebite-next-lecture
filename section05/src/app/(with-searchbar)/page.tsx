@@ -3,6 +3,8 @@ import style from './page.module.css';
 import { BookData } from '@/types';
 import { SERVER_URL } from '@/constants/server-url';
 
+// export const dynamic = 'force-dynamic';
+
 const AllBooks = async () => {
   const response = await fetch(`${SERVER_URL}/book`, { cache: 'force-cache' });
   if (!response.ok) {
