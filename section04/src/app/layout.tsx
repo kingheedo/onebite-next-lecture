@@ -4,7 +4,7 @@ import style from './layout.module.css';
 import { SERVER_URL } from '@/constants/server-url';
 import { BookData } from '@/types';
 
-export const Footer = async () => {
+async function Footer() {
   const response = await fetch(`${SERVER_URL}/book`, { cache: 'no-store' });
   if (!response.ok) {
     return <footer>제작 @winterlood</footer>;
@@ -18,7 +18,7 @@ export const Footer = async () => {
       <div>{bookCounts}개의 도서가 등록되어 있습니다.</div>
     </footer>
   );
-};
+}
 
 export default function RootLayout({
   children,
