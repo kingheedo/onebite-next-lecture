@@ -5,7 +5,7 @@ import { SERVER_URL } from '@/constants/server-url';
 import { BookData } from '@/types';
 
 async function Footer() {
-  const response = await fetch(`${SERVER_URL}/book`, { cache: 'no-store' });
+  const response = await fetch(`${SERVER_URL}/book`, { cache: 'force-cache' });
   if (!response.ok) {
     return <footer>제작 @winterlood</footer>;
   }
