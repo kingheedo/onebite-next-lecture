@@ -1,10 +1,21 @@
 import { SERVER_URL } from '@/constants/server-url';
 import style from './page.module.css';
 import { BookData } from '@/types';
+import { notFound } from 'next/navigation';
+
+// export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+}
 
 const bookDetail = async ({ bookId }: { bookId: number }) => {
   const response = await fetch(`${SERVER_URL}/book/${bookId}`);
   if (!response.ok) {
+    if (response.status === 404) {
+      //데이터가 없을 때 not found 페이지로 이동
+      notFound();
+    }
     return null;
   }
   const book: BookData = await response.json();
