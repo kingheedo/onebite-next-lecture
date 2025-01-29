@@ -9,6 +9,8 @@ async function Footer() {
   if (!response.ok) {
     return <footer>제작 @winterlood</footer>;
   }
+  // throw new Error();
+
   const allBooks: BookData[] = await response.json();
   const bookCounts = allBooks.length;
 

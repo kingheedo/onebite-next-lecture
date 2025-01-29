@@ -4,19 +4,19 @@ import { BookData } from '@/types';
 import { SERVER_URL } from '@/constants/server-url';
 import { delay } from '@/utils/delay';
 import { Suspense } from 'react';
-import BookItemSkeleton from '@/components/skeleton/book-item-skeleton';
 import BookListSkeleton from '@/components/skeleton/book-list-skeleton';
 
 export const dynamic = 'force-dynamic';
 
 const AllBooks = async () => {
   await delay(1500);
-  const response = await fetch(`${SERVER_URL}/book`, { cache: 'force-cache' });
+  const response = await fetch(`${SERVER_URL}/book`, {
+    cache: 'force-cache',
+  });
   if (!response.ok) {
     return <div>오류가 발생했습니다...</div>;
   }
   const allBooks: BookData[] = await response.json();
-
   return allBooks.map((book) => <BookItem key={book.id} {...book} />);
 };
 
