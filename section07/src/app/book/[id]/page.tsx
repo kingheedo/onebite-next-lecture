@@ -1,8 +1,9 @@
 import { SERVER_URL } from '@/constants/server-url';
 import style from './page.module.css';
-import { BookData } from '@/types';
+import { BookData, ReviewData } from '@/types';
 import { notFound } from 'next/navigation';
-import { createReviewAction } from '@/actions/create-review.action';
+import ReviewItem from '@/components/review-item';
+import ReviewEditor from '@/components/review-editor';
 
 // export const dynamicParams = false;
 
@@ -37,15 +38,18 @@ const BookDetail = async ({ bookId }: { bookId: string }) => {
   );
 };
 
-const ReviewEditor = ({ bookId }: { bookId: string }) => {
+const ReviewList = async ({ bookId }: { bookId: string }) => {
+  const response = await fetch(`${SERVER_URL}/review/book/${bookId}`);
+  if (!response.ok) {
+    throw new Error(`Review fetch failed ${response.statusText}`);
+  }
+  const reviewList: ReviewData[] = await response.json();
+
   return (
     <section>
-      <form action={createReviewAction}>
-        <input readOnly name="bookId" type="text" value={bookId} hidden />
-        <input required name="content" type="text" placeholder="리뷰 내용" />
-        <input required name="author" type="text" placeholder="작성자" />
-        <button type="submit">작성하기</button>
-      </form>
+      {reviewList.map((review) => (
+        <ReviewItem key={review.id} {...review} />
+      ))}
     </section>
   );
 };
@@ -61,6 +65,7 @@ export default async function BookPage({
     <div className={style.container}>
       <BookDetail bookId={id} />
       <ReviewEditor bookId={id} />
+      <ReviewList bookId={id} />
     </div>
   );
 }
