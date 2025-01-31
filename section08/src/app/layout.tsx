@@ -3,6 +3,7 @@ import Link from 'next/link';
 import style from './layout.module.css';
 import { SERVER_URL } from '@/constants/server-url';
 import { BookData } from '@/types';
+import { ReactNode } from 'react';
 
 async function Footer() {
   const response = await fetch(`${SERVER_URL}/book`, { cache: 'force-cache' });
@@ -23,8 +24,10 @@ async function Footer() {
 }
 
 export default function RootLayout({
+  modal,
   children,
 }: Readonly<{
+  modal: ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -37,6 +40,8 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </div>
+        {modal}
+        <div id="modal-root"></div>
       </body>
     </html>
   );
