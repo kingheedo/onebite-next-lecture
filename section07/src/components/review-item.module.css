@@ -17,11 +17,3 @@
   color: gray;
   font-size: 14px;
 }
-.delete_btn {
-  cursor: pointer;
-  border: none;
-  background: none;
-  color: inherit;
-  font-size: inherit;
-  padding: 0;
-}
