@@ -5,8 +5,19 @@ import { SERVER_URL } from '@/constants/server-url';
 import { delay } from '@/utils/delay';
 import { Suspense } from 'react';
 import BookListSkeleton from '@/components/skeleton/book-list-skeleton';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: '한입 북스',
+  description: '한입 북스에 등록된 도서를 만나보세요',
+  openGraph: {
+    title: '한입 북스',
+    description: '한입 북스에 등록된 도서를 만나보세요',
+    images: ['/thumbnail.png'], // public 폴더 내부의 파일을 가르킴
+  },
+};
 
 const AllBooks = async () => {
   await delay(1500);

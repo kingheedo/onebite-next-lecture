@@ -3,6 +3,7 @@ import BookListSkeleton from '@/components/skeleton/book-list-skeleton';
 import { SERVER_URL } from '@/constants/server-url';
 import { BookData } from '@/types';
 import { delay } from '@/utils/delay';
+import { Metadata } from 'next';
 import { Suspense } from 'react';
 
 const SearchBooks = async ({ query }: { query?: string }) => {
@@ -17,6 +18,24 @@ const SearchBooks = async ({ query }: { query?: string }) => {
   await delay(3000);
   return books.map((book) => <BookItem key={book.id} {...book} />);
 };
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}): Promise<Metadata> {
+  const { q } = await searchParams;
+
+  return {
+    title: `${q} : 한입북스 검색`,
+    description: `${q}의 검색 결과입니다`,
+    openGraph: {
+      title: `${q} : 한입북스 검색`,
+      description: `${q}의 검색 결과입니다`,
+      images: ['./thumbnail.png'],
+    },
+  };
+}
 
 export default async function Page({
   searchParams,
