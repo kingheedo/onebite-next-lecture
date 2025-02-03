@@ -15,7 +15,9 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const response = await fetch(`${SERVER_URL}/book/${id}`);
+  const response = await fetch(`${SERVER_URL}/book/${id}`, {
+    cache: 'force-cache',
+  });
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -32,12 +34,26 @@ export async function generateMetadata({
   };
 }
 
-export function generateStaticParams() {
-  return [{ id: '1' }, { id: '2' }, { id: '3' }];
+export async function generateStaticParams() {
+  try {
+    const response = await fetch(`${SERVER_URL}/book`);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const books: BookData[] = await response.json();
+
+    return books.map((book) => ({ id: String(book.id) }));
+  } catch (err) {
+    console.error('책 목록을 불러오는데 실패하였습니다.', err);
+    return [];
+  }
 }
 
 const BookDetail = async ({ bookId }: { bookId: string }) => {
-  const response = await fetch(`${SERVER_URL}/book/${bookId}`);
+  const response = await fetch(`${SERVER_URL}/book/${bookId}`, {
+    cache: 'force-cache',
+  });
   if (!response.ok) {
     if (response.status === 404) {
       //데이터가 없을 때 not found 페이지로 이동

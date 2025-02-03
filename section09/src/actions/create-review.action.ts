@@ -1,7 +1,6 @@
 'use server';
 
 import { SERVER_URL } from '@/constants/server-url';
-import { delay } from '@/utils/delay';
 import { revalidateTag } from 'next/cache';
 
 export const createReviewAction = async (_: any, formData: FormData) => {
@@ -17,7 +16,6 @@ export const createReviewAction = async (_: any, formData: FormData) => {
   }
 
   try {
-    await delay(2000);
     const response = await fetch(`${SERVER_URL}/review`, {
       method: 'POST',
       body: JSON.stringify({ bookId, content, author }),
